@@ -21,8 +21,22 @@ function find() {
     return db('dishes')
 }
 
+// function getUserPosts(userId) {
+//     return db('posts as p')
+//       .join('users as u', 'u.id', 'p.user_id')
+//       .select('p.id', 'p.text', 'u.name as postedBy')
+//       .where('p.user_id', userId);
+//   }
 function findById(id) {
     return db('dishes').where({id: id})
+    .then( res => {
+    return db('recipes')
+    .join('dishes', 'dishes.id', 'recipes.dishes_id')
+    .select('recipes.id', 'recipes.name')
+    .where('recipes.dishes_id', id)
+     } )
+    
+    
 }
 
 function update(id, changes) {
